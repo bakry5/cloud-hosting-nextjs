@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased selection:bg-brand selection:text-white transition-colors duration-300;
+  }
+}
+
+.fix-height {
+  min-height: calc(100vh - 150px);
+}
+
+.overflow-height {
+  height: calc(100vh - 150px);
+}
+
+button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* Glassmorphism utility */
+.glass {
+  @apply bg-white/70 backdrop-blur-md border border-white/50 shadow-lg;
+}
+
+.glass-dark {
+  @apply bg-slate-900/80 backdrop-blur-md border border-slate-700/50 shadow-xl;
+}
