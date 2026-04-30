@@ -10,64 +10,108 @@ interface NavbarProps {
     isAdmin: boolean;
 }
 
-const Navbar = ({ isAdmin } : NavbarProps) => {
-    const [toggle, setToggle] = useState(false);
+const navLinks = [
+    { href: "/", label: "Home", icon: <FiHome /> },
+    { href: "/articles?pageNumber=1", label: "Articles", icon: <FiFileText /> },
+    { href: "/about", label: "About", icon: <FiInfo /> },
+];
 
-    const toggleMenu = () => setToggle(prev => !prev);
-    const closeMenu = () => setToggle(false);
+const Navbar = ({ isAdmin }: NavbarProps) => {
+    const [open, setOpen] = useState(false);
 
     return (
-        <nav className="flex items-center justify-between w-full lg:w-auto">
-            <div className="flex items-center justify-between w-full lg:w-auto">
-                <Link href="/" className=" text-lg  flex items-center gap-2  md-text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-brand via-brand-accent to-brand transition-all hover:opacity-80 tracking-tight animate-gradient">
-                    <div className="relative">
-                        <GrTechnology className="text-brand text-3xl animate-pulse-slow" />
-                        <div className="absolute inset-0 blur-lg bg-brand/30 rounded-full" />
-                    </div>
-                    <span className="     bg-gradient-to-r from-brand to-brand-accent bg-clip-text text-transparent">CLOUD</span>
-                    <span className="text-slate-700 dark:text-slate-200">HOSTING</span>
-                </Link>
+        <nav className="relative flex items-center justify-between w-full lg:w-auto">
 
-                {/* Mobile Menu Toggle */}
-                <div className="lg:hidden text-3xl text-slate-800 dark:text-slate-200 cursor-pointer p-2 rounded-xl hover:bg-brand/10 transition-all duration-300 hover:scale-110" onClick={toggleMenu}>
-                    {toggle ? <IoMdClose /> : <AiOutlineMenu />}
+            {/* Logo */}
+            <Link
+                href="/"
+                className="flex items-center gap-2 font-black tracking-tight hover:opacity-80 transition-opacity"
+            >
+                <div className="relative">
+                    <GrTechnology className="text-brand text-3xl animate-pulse-slow" />
+                    <div className="absolute inset-0 blur-lg bg-brand/30 rounded-full" />
                 </div>
-            </div>
+                <span className="text-lg md:text-2xl bg-gradient-to-r from-brand to-brand-accent bg-clip-text text-transparent">
+                    CLOUD
+                </span>
+                <span className="text-lg md:text-2xl text-slate-700 dark:text-slate-200">
+                    HOSTING
+                </span>
+            </Link>
 
-            {/* Desktop and Mobile Links Wrapper */}
-            <div
+            {/* Mobile toggle */}
+            <button
+                className="lg:hidden text-2xl text-slate-700 dark:text-slate-200 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                onClick={() => setOpen(p => !p)}
+                aria-label="Toggle menu"
+            >
+                {open ? <IoMdClose /> : <AiOutlineMenu />}
+            </button>
+
+            {/* Links — desktop: inline | mobile: dropdown */}
+            <ul
                 className={`
-                  !bg-[#555b68]  absolute lg:static top-20 left-0 w-full lg:w-auto backdrop-blur-xl bg-white/90 lg:bg-transparent lg:backdrop-blur-none lg:border-none shadow-2xl lg:shadow-none border-b border-slate-200/50 lg:border-none transition-all duration-500 origin-top 
-                    ${toggle ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 lg:scale-y-100 lg:opacity-100'}
+                    flex-col lg:flex-row
+                    lg:flex lg:items-center lg:gap-1 lg:ml-10
+                    absolute lg:static top-full left-0 w-full lg:w-auto
+                    p-4 lg:p-0
+                    bg-white dark:bg-slate-900 lg:bg-transparent lg:dark:bg-transparent
+                    border-b border-slate-200 dark:border-slate-700 lg:border-none
+                    shadow-lg lg:shadow-none
+                    rounded-b-2xl lg:rounded-none
+                    transition-all duration-300 origin-top
+                    ${open ? "flex scale-y-100 opacity-100" : "hidden lg:flex scale-y-95 opacity-0 lg:scale-y-100 lg:opacity-100"}
                 `}
             >
-                <ul className="flex flex-col lg:flex-row items-start lg:items-center p-6 lg:p-0 gap-4 lg:gap-2 lg:ml-10 ">
-                    <Link onClick={closeMenu} className="relative w-full lg:w-auto px-4 py-3 lg:px-4 lg:py-2 text-base font-semibold dark:text-slate-200 hover:text-brand transition-all duration-300 rounded-xl lg:rounded-none hover:bg-brand/5 lg:hover:bg-transparent group flex items-center gap-3 lg:gap-0 " href="/">
-                        <FiHome className="lg:hidden text-lg" />
-                        <span>Home</span>
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand to-brand-accent transition-all duration-300 group-hover:w-full rounded-full"></span>
-                    </Link>
-                    <Link onClick={closeMenu} className="relative w-full lg:w-auto px-4 py-3 lg:px-4 lg:py-2 text-base font-semibold  dark:text-slate-200 hover:text-brand transition-all duration-300 rounded-xl lg:rounded-none hover:bg-brand/5 lg:hover:bg-transparent group flex items-center gap-3 lg:gap-0" href="/articles?pageNumber=1">
-                        <FiFileText className="lg:hidden text-lg" />
-                        <span>Articles</span>
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand to-brand-accent transition-all duration-300 group-hover:w-full rounded-full"></span>
-                    </Link>
-                    <Link onClick={closeMenu} className="relative w-full lg:w-auto px-4 py-3 lg:px-4 lg:py-2 text-base font-semibold  dark:text-slate-200 hover:text-brand transition-all duration-300 rounded-xl lg:rounded-none hover:bg-brand/5 lg:hover:bg-transparent group flex items-center gap-3 lg:gap-0" href="/about">
-                        <FiInfo className="lg:hidden text-lg" />
-                        <span>About</span>
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand to-brand-accent transition-all duration-300 group-hover:w-full rounded-full"></span>
-                    </Link>
-                   {isAdmin && (
-                     <Link onClick={closeMenu} className="relative w-full lg:w-auto px-4 py-3 lg:px-4 lg:py-2 text-base font-semibold text-brand-accent hover:text-brand transition-all duration-300 rounded-xl lg:rounded-none hover:bg-brand-accent/10 lg:hover:bg-transparent group flex items-center gap-3 lg:gap-0" href="/admin">
-                         <FiShield className="lg:hidden text-lg" />
-                         <span>Admin Dashboard</span>
-                         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-accent to-brand transition-all duration-300 group-hover:w-full rounded-full"></span>
-                     </Link>
-                   )}
-                </ul>
-            </div>
+                {navLinks.map(({ href, label, icon }) => (
+                    <li key={href}>
+                        <Link
+                            href={href}
+                            onClick={() => setOpen(false)}
+                            className="
+                                relative flex items-center gap-3 lg:gap-0
+                                px-4 py-3 lg:py-2
+                                text-base font-semibold
+                                text-slate-700 dark:text-slate-200
+                                hover:text-brand dark:hover:text-brand
+                                rounded-xl lg:rounded-md
+                                hover:bg-brand/5 lg:hover:bg-transparent
+                                transition-colors duration-200
+                                group
+                            "
+                        >
+                            <span className="lg:hidden text-lg">{icon}</span>
+                            {label}
+                            <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-gradient-to-r from-brand to-brand-accent rounded-full transition-all duration-300 group-hover:w-full lg:block hidden" />
+                        </Link>
+                    </li>
+                ))}
+
+                {isAdmin && (
+                    <li>
+                        <Link
+                            href="/admin"
+                            onClick={() => setOpen(false)}
+                            className="
+                                relative flex items-center gap-3 lg:gap-0
+                                px-4 py-3 lg:py-2
+                                text-base font-semibold
+                                text-brand-accent hover:text-brand
+                                rounded-xl lg:rounded-md
+                                hover:bg-brand-accent/10 lg:hover:bg-transparent
+                                transition-colors duration-200
+                                group
+                            "
+                        >
+                            <FiShield className="lg:hidden text-lg" />
+                            Admin Dashboard
+                            <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-gradient-to-r from-brand-accent to-brand rounded-full transition-all duration-300 group-hover:w-full lg:block hidden" />
+                        </Link>
+                    </li>
+                )}
+            </ul>
         </nav>
-    )
-}
+    );
+};
 
 export default Navbar;
