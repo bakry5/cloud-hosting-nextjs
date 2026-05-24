@@ -19,7 +19,7 @@ const Footer = () => {
     contact: [
       { label: "moahmed.medhat23000@gmail.com", href: "mailto:moahmed.medhat23000@gmail.com" },
       { label: "+20 150 788 2744", href: "tel:+201507882744" },
-      { label: "Cairo, Egypt", href: "#" },
+      { label: "Egypt", href: "#" },
     ],
   };
 
